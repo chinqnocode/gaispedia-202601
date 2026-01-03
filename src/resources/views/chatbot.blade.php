@@ -34,7 +34,8 @@
             box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
             display: flex;
             flex-direction: column;
-            min-height: calc(100vh - 40px);
+            height: calc(100vh - 40px);
+            overflow: hidden;
         }
 
         /* Header */
@@ -44,6 +45,9 @@
             justify-content: space-between;
             padding: 20px 24px;
             border-bottom: 1px solid #e9ecef;
+            background-color: #ffffff;
+            flex-shrink: 0;
+            z-index: 10;
         }
 
         .header-left {
@@ -102,6 +106,7 @@
             display: flex;
             flex-direction: column;
             gap: 16px;
+            min-height: 0;
         }
 
         .message {
@@ -236,6 +241,19 @@
         .faq-section {
             padding: 20px 24px;
             border-top: 1px solid #e9ecef;
+            background-color: #ffffff;
+            flex-shrink: 0;
+        }
+
+        .faq-section.hidden {
+            display: none;
+        }
+
+        .faq-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
         }
 
         .faq-title {
@@ -245,11 +263,30 @@
             font-size: 15px;
             font-weight: 500;
             color: #212529;
-            margin-bottom: 16px;
         }
 
         .faq-title .icon {
             font-size: 18px;
+        }
+
+        .faq-close-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            background-color: transparent;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            cursor: pointer;
+            color: #868e96;
+            transition: all 0.2s ease;
+        }
+
+        .faq-close-btn:hover {
+            background-color: #f8f9fa;
+            border-color: #adb5bd;
+            color: #495057;
         }
 
         .faq-buttons {
@@ -279,6 +316,8 @@
         /* Input Area */
         .input-area {
             padding: 16px 24px 24px;
+            background-color: #ffffff;
+            flex-shrink: 0;
         }
 
         .input-wrapper {
@@ -345,7 +384,8 @@
 
             .chatbot-container {
                 border-radius: 0;
-                min-height: 100vh;
+                height: 100vh;
+                height: 100dvh; /* Dynamic viewport height for mobile browsers */
             }
 
             .faq-buttons {
@@ -364,7 +404,8 @@
         /* Typing indicator */
         .typing-indicator {
             display: flex;
-            gap: 4px;
+            align-items: center;
+            gap: 12px;
             padding: 16px 20px;
             background-color: #f1f3f4;
             border-radius: 16px;
@@ -372,21 +413,222 @@
             align-self: flex-start;
         }
 
-        .typing-indicator span {
+        .typing-indicator .typing-text {
+            font-size: 14px;
+            color: #495057;
+        }
+
+        .typing-indicator .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .typing-indicator .typing-dots span {
             width: 8px;
             height: 8px;
-            background-color: #adb5bd;
+            background-color: #339af0;
             border-radius: 50%;
             animation: typing 1.4s infinite ease-in-out;
         }
 
-        .typing-indicator span:nth-child(1) { animation-delay: 0s; }
-        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
-        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+        .typing-indicator .typing-dots span:nth-child(1) { animation-delay: 0s; }
+        .typing-indicator .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
 
         @keyframes typing {
             0%, 60%, 100% { transform: translateY(0); }
             30% { transform: translateY(-8px); }
+        }
+
+        /* Dark Mode Toggle */
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: #ffffff;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-right: 8px;
+        }
+
+        .theme-toggle:hover {
+            background-color: #f8f9fa;
+            border-color: #adb5bd;
+        }
+
+        .theme-toggle svg {
+            width: 20px;
+            height: 20px;
+            color: #495057;
+        }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background-color: #1a1a2e;
+        }
+
+        body.dark-mode .chatbot-container {
+            background-color: #16213e;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        body.dark-mode .chatbot-header {
+            border-bottom-color: #2a2a4a;
+            background-color: #16213e;
+        }
+
+        body.dark-mode .header-title h1 {
+            color: #e9ecef;
+        }
+
+        body.dark-mode .header-title p {
+            color: #868e96;
+        }
+
+        body.dark-mode .clear-history-btn,
+        body.dark-mode .theme-toggle,
+        body.dark-mode .air-canvas-btn {
+            background-color: #2a2a4a;
+            border-color: #3a3a5a;
+            color: #e9ecef;
+        }
+
+        body.dark-mode .clear-history-btn:hover,
+        body.dark-mode .theme-toggle:hover,
+        body.dark-mode .air-canvas-btn:hover {
+            background-color: #3a3a5a;
+            border-color: #4a4a6a;
+        }
+
+        body.dark-mode .air-canvas-btn svg {
+            color: #e9ecef;
+        }
+
+        body.dark-mode .theme-toggle svg {
+            color: #ffd43b;
+        }
+
+        body.dark-mode .message.bot {
+            background-color: #2a2a4a;
+            color: #e9ecef;
+        }
+
+        body.dark-mode .message.bot a {
+            color: #74c0fc;
+            border-bottom-color: #4dabf7;
+        }
+
+        body.dark-mode .message.bot a:hover {
+            color: #a5d8ff;
+        }
+
+        body.dark-mode .message.bot th {
+            background-color: #3a3a5a;
+        }
+
+        body.dark-mode .message.bot tr:nth-child(even) {
+            background-color: #2a2a4a;
+        }
+
+        body.dark-mode .message.bot th,
+        body.dark-mode .message.bot td {
+            border-color: #3a3a5a;
+        }
+
+        body.dark-mode .message.bot code {
+            background-color: #3a3a5a;
+        }
+
+        body.dark-mode .message.user {
+            background-color: #228be6;
+        }
+
+        body.dark-mode .faq-section {
+            border-top-color: #2a2a4a;
+            background-color: #16213e;
+        }
+
+        body.dark-mode .input-area {
+            background-color: #16213e;
+        }
+
+        body.dark-mode .faq-title {
+            color: #e9ecef;
+        }
+
+        body.dark-mode .faq-close-btn {
+            border-color: #3a3a5a;
+            color: #868e96;
+        }
+
+        body.dark-mode .faq-close-btn:hover {
+            background-color: #3a3a5a;
+            border-color: #4a4a6a;
+            color: #e9ecef;
+        }
+
+        body.dark-mode .faq-btn {
+            background-color: #2a2a4a;
+            border-color: #3a3a5a;
+            color: #adb5bd;
+        }
+
+        body.dark-mode .faq-btn:hover {
+            background-color: #3a3a5a;
+            border-color: #339af0;
+            color: #74c0fc;
+        }
+
+        body.dark-mode .input-wrapper {
+            background-color: #2a2a4a;
+            border-color: #3a3a5a;
+        }
+
+        body.dark-mode .input-wrapper:focus-within {
+            background-color: #2a2a4a;
+            border-color: #339af0;
+        }
+
+        body.dark-mode .input-wrapper input {
+            color: #e9ecef;
+        }
+
+        body.dark-mode .input-wrapper input::placeholder {
+            color: #6c757d;
+        }
+
+        body.dark-mode .input-wrapper .icon {
+            color: #6c757d;
+        }
+
+        body.dark-mode .typing-indicator {
+            background-color: #2a2a4a;
+        }
+
+        body.dark-mode .typing-indicator .typing-text {
+            color: #adb5bd;
+        }
+
+        body.dark-mode .modal-content {
+            background-color: #16213e;
+        }
+
+        body.dark-mode .modal-title {
+            color: #e9ecef;
+        }
+
+        body.dark-mode .modal-message {
+            color: #adb5bd;
+        }
+
+        body.dark-mode .modal-btn-secondary {
+            background-color: #2a2a4a;
+            border-color: #3a3a5a;
+            color: #e9ecef;
         }
 
         /* Storage Warning Modal */
@@ -501,13 +743,24 @@
                     <p>生成AI協会 ナレッジアシスタント</p>
                 </div>
             </div>
-            <button class="clear-history-btn" id="clearHistoryBtn">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M3 6H5H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6M19 6V20C19 20.5304 18.7893 21.0391 18.4142 21.4142C18.0391 21.7893 17.5304 22 17 22H7C6.46957 22 5.96086 21.7893 5.58579 21.4142C5.21071 21.0391 5 20.5304 5 20V6H19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <span>履歴をクリア</span>
-            </button>
+            <div style="display: flex; align-items: center;">
+                <button class="theme-toggle" id="themeToggle" title="テーマ切り替え">
+                    <svg class="sun-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2"/>
+                        <path d="M12 2V4M12 20V22M4 12H2M22 12H20M5.64 5.64L4.22 4.22M19.78 19.78L18.36 18.36M5.64 18.36L4.22 19.78M19.78 4.22L18.36 5.64" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <svg class="moon-icon" style="display:none;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                <button class="clear-history-btn" id="clearHistoryBtn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 6H5H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6M19 6V20C19 20.5304 18.7893 21.0391 18.4142 21.4142C18.0391 21.7893 17.5304 22 17 22H7C6.46957 22 5.96086 21.7893 5.58579 21.4142C5.21071 21.0391 5 20.5304 5 20V6H19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>履歴をクリア</span>
+                </button>
+            </div>
         </header>
 
         <!-- Chat Messages -->
@@ -516,10 +769,17 @@
         </div>
 
         <!-- FAQ Section -->
-        <section class="faq-section">
-            <div class="faq-title">
-                <span class="icon">💡</span>
-                <span>よくある質問</span>
+        <section class="faq-section" id="faqSection">
+            <div class="faq-header">
+                <div class="faq-title">
+                    <span class="icon">💡</span>
+                    <span>よくある質問</span>
+                </div>
+                <button class="faq-close-btn" id="faqCloseBtn" title="閉じる">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
             </div>
             <div class="faq-buttons">
                 <button class="faq-btn" data-question="GAISの会員になるにはどうすればいい？">
@@ -559,7 +819,60 @@
             const sendBtn = document.getElementById('sendBtn');
             const clearHistoryBtn = document.getElementById('clearHistoryBtn');
             const faqButtons = document.querySelectorAll('.faq-btn');
+            const faqSection = document.getElementById('faqSection');
+            const faqCloseBtn = document.getElementById('faqCloseBtn');
             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            const themeToggle = document.getElementById('themeToggle');
+
+            // Dark Mode
+            const STORAGE_KEY_THEME = 'gaispedia_theme';
+
+            function initTheme() {
+                const savedTheme = localStorage.getItem(STORAGE_KEY_THEME);
+                if (savedTheme === 'dark') {
+                    document.body.classList.add('dark-mode');
+                    updateThemeIcon(true);
+                }
+            }
+
+            function toggleTheme() {
+                const isDark = document.body.classList.toggle('dark-mode');
+                localStorage.setItem(STORAGE_KEY_THEME, isDark ? 'dark' : 'light');
+                updateThemeIcon(isDark);
+            }
+
+            function updateThemeIcon(isDark) {
+                const sunIcon = themeToggle.querySelector('.sun-icon');
+                const moonIcon = themeToggle.querySelector('.moon-icon');
+                if (isDark) {
+                    sunIcon.style.display = 'none';
+                    moonIcon.style.display = 'block';
+                } else {
+                    sunIcon.style.display = 'block';
+                    moonIcon.style.display = 'none';
+                }
+            }
+
+            themeToggle.addEventListener('click', toggleTheme);
+            initTheme();
+
+            // FAQ Section Close
+            const STORAGE_KEY_FAQ_HIDDEN = 'gaispedia_faq_hidden';
+
+            function initFaqSection() {
+                const isHidden = sessionStorage.getItem(STORAGE_KEY_FAQ_HIDDEN) === 'true';
+                if (isHidden) {
+                    faqSection.classList.add('hidden');
+                }
+            }
+
+            function closeFaqSection() {
+                faqSection.classList.add('hidden');
+                sessionStorage.setItem(STORAGE_KEY_FAQ_HIDDEN, 'true');
+            }
+
+            faqCloseBtn.addEventListener('click', closeFaqSection);
+            initFaqSection();
 
             // Modal elements
             const storageModal = document.getElementById('storageModal');
@@ -807,7 +1120,12 @@
                 const typingDiv = document.createElement('div');
                 typingDiv.className = 'typing-indicator';
                 typingDiv.id = 'typingIndicator';
-                typingDiv.innerHTML = '<span></span><span></span><span></span>';
+                typingDiv.innerHTML = `
+                    <span class="typing-text">GAISペディアが入力中</span>
+                    <div class="typing-dots">
+                        <span></span><span></span><span></span>
+                    </div>
+                `;
                 chatMessages.appendChild(typingDiv);
                 scrollToBottom();
             }
