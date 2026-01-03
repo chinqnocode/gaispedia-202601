@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -85,6 +86,7 @@ class GeminiService
         }
 
         try {
+            /** @var Response $response */
             $response = Http::withHeaders([
                 'Content-Type' => 'application/json',
                 'x-goog-api-key' => $this->apiKey,
@@ -160,6 +162,10 @@ PROMPT;
 
         $systemPrompt = <<<SYSTEM
 あなたは「GAISペディア」、生成AI協会（GAIS）の公式ナレッジアシスタントです。
+
+【最重要ルール - 必ず守ること】
+★ 回答は必ず日本語で行ってください。英語での回答は禁止です。
+★ ユーザーが英語で質問しても、日本語で回答してください。
 
 【重要なルール】
 1. 提供されたgais.jpのページ内容のみを参照して回答してください

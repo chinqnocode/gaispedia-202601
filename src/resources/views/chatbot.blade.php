@@ -746,28 +746,32 @@
                 scrollToBottom();
             }
 
-            // Configure marked.js
-            marked.setOptions({
-                breaks: true,  // Convert \n to <br>
-                gfm: true,     // GitHub Flavored Markdown
-            });
+            // Configure marked.js with custom renderer
+            const renderer = {
+                link(token) {
+                    const href = token.href || '';
+                    const title = token.title || '';
+                    const text = token.text || '';
 
-            // Custom renderer to add target="_blank" to links
-            const renderer = new marked.Renderer();
-            renderer.link = function(href, title, text) {
-                // Only allow gais.jp links
-                if (!href.includes('gais.jp')) {
-                    return text; // Just show text without link
+                    // Only allow gais.jp links
+                    if (!href.includes('gais.jp')) {
+                        return text; // Just show text without link
+                    }
+                    // Skip Google redirect URLs
+                    if (href.includes('vertexaisearch.cloud.google.com') ||
+                        href.includes('grounding-api-redirect')) {
+                        return text;
+                    }
+                    const titleAttr = title ? ` title="${title}"` : '';
+                    return `<a href="${href}" target="_blank" rel="noopener noreferrer"${titleAttr}>${text}</a>`;
                 }
-                // Skip Google redirect URLs
-                if (href.includes('vertexaisearch.cloud.google.com') ||
-                    href.includes('grounding-api-redirect')) {
-                    return text;
-                }
-                const titleAttr = title ? ` title="${title}"` : '';
-                return `<a href="${href}" target="_blank" rel="noopener noreferrer"${titleAttr}>${text}</a>`;
             };
-            marked.setOptions({ renderer });
+
+            marked.use({
+                breaks: true,
+                gfm: true,
+                renderer
+            });
 
             // Format message using marked.js
             function formatMessage(text) {
